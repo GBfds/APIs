@@ -8,6 +8,7 @@
 para melhor explicaçao acesse a pagina do criador do [Go-MySQL-Driver](https://github.com/go-sql-driver/mysql#go-mysql-driver)
 ## criação de tabelas
 ### tabela da *api01.go*
+1. pe
 ```
 CREATE TABLE clientes(id INT PRIMARY KEY auto_increment, nome VARCHAR(80) NOT NULL,email VARCHAR(100) NOT NULL);
 ```
