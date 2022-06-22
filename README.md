@@ -1,4 +1,7 @@
 # APIs
  APIs com golang e mysql
 
-# conecção com mysql
+# mysql
+---
+## conecção com banco de dados mysql
+## criação de tabelas
