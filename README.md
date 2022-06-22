@@ -5,8 +5,8 @@
 # mysql
 ---
 ## conecção com banco de dados mysql
----
-- primeiramente tenha seu bando de dados já criado no seu MySQL
+
+- primeiramente tenha seu banco de dados já criado no seu MySQL
 ```
 func conectarDataBase() {
 	var erroDeConecçao error
@@ -26,6 +26,8 @@ func conectarDataBase() {
 - na terceira linha entre as duas ultimas aspas, basta trocar o __usuario__ pelo seu usuario do MySQL, __senha__ pela sua senha e __nomeDB__ por o nome do seu banco de dados
 
 - se der tudo certo na conecção, basta criar as tabelas dentro do banco de dados que você deseja fazer a conecção 
+
+
 
 
 para melhor explicaçao acesse a pagina do criador do [Go-MySQL-Driver](https://github.com/go-sql-driver/mysql#go-mysql-driver)
