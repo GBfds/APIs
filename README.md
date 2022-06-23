@@ -6,7 +6,12 @@
 ---
 ## conecção com banco de dados mysql
 
-- primeiramente tenha seu banco de dados já criado no seu MySQL
+- instali o pacote do driver com o comando abaixo
+```
+$ go get -u github.com/go-sql-driver/mysql
+```
+
+- tenha seu banco de dados já criado no seu MySQL
 ```
 func conectarDataBase() {
 	var erroDeConecçao error
@@ -32,7 +37,7 @@ func conectarDataBase() {
 
 para melhor explicaçao acesse a pagina do criador do [Go-MySQL-Driver](https://github.com/go-sql-driver/mysql#go-mysql-driver)
 ## criação de tabelas
-### tabela da *api01.go*
+### tabela da *api_cliente_pix.go*
 1. crie a tabela de clientes com o comando sql abaixo
 ```
 CREATE TABLE clientes(id INT PRIMARY KEY auto_increment, nome VARCHAR(80) NOT NULL,email VARCHAR(100) NOT NULL);
@@ -42,4 +47,10 @@ CREATE TABLE clientes(id INT PRIMARY KEY auto_increment, nome VARCHAR(80) NOT NU
 ```
  CREATE TABLE pix_clientes(id_clt INT, pix1 VARCHAR(100),pix2 VARCHAR(100),pix3 VARCHAR(100), FOREIGN KEY(id_clt) REFERENCES clientes(id));
 
+```
+
+### tabela da *api_basica.go*
+
+```
+CREATE TABLE pessoas (id INT PRIMARY KEY, nome VARCHAR(80) NOT NULL,sobrenome VARCHAR(80) NOT NULL);
 ```
