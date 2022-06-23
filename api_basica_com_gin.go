@@ -15,15 +15,15 @@ import (
 var db *sql.DB
 
 type pessoa struct {
-	Id        int
-	Nome      string
-	Sobrenome string
+	Id        int    `json:"id"`
+	Nome      string `json:"nome"`
+	Sobrenome string `json:"sobrenime"`
 }
 
 type clt struct {
-	Id    int
-	Nome  string
-	Email string
+	Id    int    `json:"id"`
+	Nome  string `json:"nome"`
+	Email string `json:"email"`
 }
 
 func lerBd(c *gin.Context) {
