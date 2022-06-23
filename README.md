@@ -60,3 +60,4 @@ Lembre-se apenas de instalar o gin com o comando
 ```
 $ go get -u github.com/gin-gonic/gin
 ```
+para melhor explicaçao acesse a pagina do criador do [Gin Web Framework](https://github.com/gin-gonic/gin)
