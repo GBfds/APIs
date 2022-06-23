@@ -17,9 +17,9 @@ import (
 var db *sql.DB
 
 type pessoa struct {
-	Id        int
-	Nome      string
-	Sobrenome string
+	Id        int    `json:"id"`
+	Nome      string `json:"nome"`
+	Sobrenome string `json:"sobrenome"`
 }
 
 //hundles
