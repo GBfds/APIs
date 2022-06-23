@@ -56,6 +56,7 @@ CREATE TABLE pessoas (id INT PRIMARY KEY, nome VARCHAR(80) NOT NULL,sobrenome VA
 ```
 ### tabela da *api_basica_com_gin.go*
 essa API é apenas um melhoria da __api_basica.go__ então é usada a mesma tabela
+
 Lembre-se apenas de instalar o gin com o comando
 ```
 $ go get -u github.com/gin-gonic/gin
