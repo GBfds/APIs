@@ -2,9 +2,9 @@
 ---
  APIs com golang e MySQL
 
-# mysql
+# MySQL
 ---
-## conecção com banco de dados mysql
+## conecção com banco de dados MySQL
 
 - instali o pacote do driver com o comando abaixo
 ```
