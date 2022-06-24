@@ -43,7 +43,7 @@ func pix(w http.ResponseWriter, r *http.Request) {
 	partes := strings.Split(r.URL.Path, "/")
 	id, erroSplit := strconv.Atoi(partes[3])
 	if erroSplit != nil {
-		w.WriteHeader(http.StatusNotFound)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
@@ -51,8 +51,8 @@ func pix(w http.ResponseWriter, r *http.Request) {
 	var clt cltPix
 	erroScan := registro.Scan(&clt.IdClt, &clt.Nome, &clt.Pix1, &clt.Pix2, &clt.Pix3)
 	if erroScan != nil {
-		log.Println(erroScan.Error())
 		w.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(w).Encode(respostaEmTexto{"o cliente não existe"})
 		return
 	}
 
@@ -63,7 +63,7 @@ func atualizarPix(w http.ResponseWriter, r *http.Request) {
 	partes := strings.Split(r.URL.Path, "/")
 	id, erroSplit := strconv.Atoi(partes[3])
 	if erroSplit != nil {
-		w.WriteHeader(http.StatusNotFound)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
@@ -79,7 +79,6 @@ func atualizarPix(w http.ResponseWriter, r *http.Request) {
 	var clt cltPix
 	erroScan := registro.Scan(&clt.IdClt, &clt.Nome, &clt.Pix1, &clt.Pix2, &clt.Pix3)
 	if erroScan != nil {
-		log.Println(erroScan.Error())
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
@@ -98,7 +97,6 @@ func atualizarPix(w http.ResponseWriter, r *http.Request) {
 
 	_, erroExec := db.Exec("UPDATE pix_clientes SET pix1 = ?, pix2 = ?, pix3 = ? WHERE id_clt = ?;", clt.Pix1, clt.Pix2, clt.Pix3, id)
 	if erroExec != nil {
-		log.Println("erro no update pix" + erroExec.Error())
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -113,7 +111,7 @@ func buscarCliente(w http.ResponseWriter, r *http.Request) {
 	partes := strings.Split(r.URL.Path, "/")
 	id, erroSplit := strconv.Atoi(partes[2])
 	if erroSplit != nil {
-		w.WriteHeader(http.StatusNotFound)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
@@ -121,7 +119,6 @@ func buscarCliente(w http.ResponseWriter, r *http.Request) {
 	var clt cliente
 	erroScan := registro.Scan(&clt.Id, &clt.Nome, &clt.Email)
 	if erroScan != nil {
-		log.Println(erroScan.Error())
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
@@ -132,7 +129,7 @@ func lerBancoDeDados(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	registro, erroQuery := db.Query("SELECT * FROM clientes;")
 	if erroQuery != nil {
-		log.Println(erroQuery.Error())
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
@@ -147,16 +144,17 @@ func lerBancoDeDados(w http.ResponseWriter, r *http.Request) {
 
 		clts = append(clts, clt)
 	}
+	w.WriteHeader(http.StatusAccepted)
 	json.NewEncoder(w).Encode(clts)
 }
 func deletarCliente(w http.ResponseWriter, r *http.Request) {
 	partes := strings.Split(r.URL.Path, "/")
 	id, erroSplit := strconv.Atoi(partes[2])
 	if erroSplit != nil {
-		w.WriteHeader(http.StatusNotFound)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-
+	//verificação se o cliente existe
 	registro := db.QueryRow("SELECT * FROM clientes WHERE id = ?;", id)
 	var clt cliente
 	erroScan := registro.Scan(&clt.Id, &clt.Nome, &clt.Email)
@@ -164,6 +162,7 @@ func deletarCliente(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
+	//...
 	// deletar primeiro da tabela de chaves pix
 	_, erroExec2 := db.Exec("DELETE FROM pix_clientes WHERE id_clt = ?", id)
 	if erroExec2 != nil {
@@ -176,14 +175,14 @@ func deletarCliente(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	w.WriteHeader(http.StatusNoContent)
+	w.WriteHeader(http.StatusOK)
 }
 func atualizarCliente(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	partes := strings.Split(r.URL.Path, "/")
 	id, erroSplit := strconv.Atoi(partes[2])
 	if erroSplit != nil {
-		w.WriteHeader(http.StatusNotFound)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
@@ -299,7 +298,7 @@ func handles() {
 //configurações da API
 func conectarDataBase() {
 	var erroDeConecçao error
-	db, erroDeConecçao = sql.Open("mysql", "usuario:senha@/nome_db")
+	db, erroDeConecçao = sql.Open("mysql", "usuario:senha@/nomeDB")
 	if erroDeConecçao != nil {
 		log.Println("erro na conecção do banco de dados" + erroDeConecçao.Error())
 		log.Fatal()
