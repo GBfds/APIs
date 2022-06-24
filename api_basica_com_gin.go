@@ -15,15 +15,9 @@ import (
 var db *sql.DB
 
 type pessoa struct {
-	Id        int    `json:"id"`
-	Nome      string `json:"nome"`
-	Sobrenome string `json:"sobrenime"`
-}
-
-type clt struct {
-	Id    int    `json:"id"`
-	Nome  string `json:"nome"`
-	Email string `json:"email"`
+	Id        int
+	Nome      string
+	Sobrenome string
 }
 
 func lerBd(c *gin.Context) {
@@ -47,14 +41,13 @@ func lerBd(c *gin.Context) {
 		})
 	}
 }
-
 func criarP(c *gin.Context) {
 	c.Header("Content-Type", "application/json")
 	Body := c.Request.Body
 	corpo, erroRead := ioutil.ReadAll(Body)
 	if erroRead != nil {
 		fmt.Print(erroRead.Error())
-		c.AbortWithStatus(http.StatusBadGateway)
+		c.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 	var novaPessoa pessoa
@@ -76,9 +69,7 @@ func princi(c *gin.Context) {
 	c.AbortWithStatus(http.StatusOK)
 
 	c.JSON(200, gin.H{
-		"id":    "pessoa",
-		"nome":  "aleatoria",
-		"email": "pessoaale@",
+		"menssagem": "insira os dados de pesquisa, crição, exclusão ou atualização dos clientes",
 	})
 }
 
